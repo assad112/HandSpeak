@@ -1,0 +1,103 @@
+{
+  "مرحبا": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "شكرا": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "نعم": {
+    "label": "نعم",
+    "type": "images",
+    "folder": "naam"
+  },
+  "لا": {
+    "label": "لا",
+    "type": "images",
+    "folder": "la"
+  },
+  "من فضلك": {
+    "label": "من_فضلك",
+    "type": "images",
+    "folder": "min_fadlak"
+  },
+  "آسف": {
+    "label": "آسف",
+    "type": "images",
+    "folder": "asef"
+  },
+  "صباح الخير": {
+    "label": "صباح_الخير",
+    "type": "images",
+    "folder": "sabah_alkhair"
+  },
+  "مساء الخير": {
+    "label": "مساء_الخير",
+    "type": "images",
+    "folder": "masaa_alkhair"
+  },
+  "كيف حالك": {
+    "label": "كيف_حالك",
+    "type": "images",
+    "folder": "kaif_halak"
+  },
+  "بخير": {
+    "label": "بخير",
+    "type": "images",
+    "folder": "bikhair"
+  },
+  "السلام عليكم": {
+    "label": "السلام_عليكم",
+    "type": "images",
+    "folder": "assalamu_alaikum"
+  },
+  "simple": {
+    "label": "Simple_Test",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تجربة": {
+    "label": "تجربة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تعلم": {
+    "label": "تعلم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أ": {"label": "أ", "type": "images", "folder": "Alef"},
+  "ب": {"label": "ب", "type": "images", "folder": "Beh"},
+  "ت": {"label": "ت", "type": "images", "folder": "Teh"},
+  "ث": {"label": "ث", "type": "images", "folder": "Theh"},
+  "ج": {"label": "ج", "type": "images", "folder": "Jeem"},
+  "ح": {"label": "ح", "type": "images", "folder": "Hah"},
+  "خ": {"label": "خ", "type": "images", "folder": "Khah"},
+  "د": {"label": "د", "type": "images", "folder": "Dal"},
+  "ذ": {"label": "ذ", "type": "images", "folder": "Thal"},
+  "ر": {"label": "ر", "type": "images", "folder": "Reh"},
+  "ز": {"label": "ز", "type": "images", "folder": "Zain"},
+  "س": {"label": "س", "type": "images", "folder": "Seen"},
+  "ش": {"label": "ش", "type": "images", "folder": "Sheen"},
+  "ص": {"label": "ص", "type": "images", "folder": "Sad"},
+  "ض": {"label": "ض", "type": "images", "folder": "Dad"},
+  "ط": {"label": "ط", "type": "images", "folder": "Tah"},
+  "ظ": {"label": "ظ", "type": "images", "folder": "Zah"},
+  "ع": {"label": "ع", "type": "images", "folder": "Ain"},
+  "غ": {"label": "غ", "type": "images", "folder": "Ghain"},
+  "ف": {"label": "ف", "type": "images", "folder": "Feh"},
+  "ق": {"label": "ق", "type": "images", "folder": "Qaf"},
+  "ك": {"label": "ك", "type": "images", "folder": "Kaf"},
+  "ل": {"label": "ل", "type": "images", "folder": "Lam"},
+  "م": {"label": "م", "type": "images", "folder": "Meem"},
+  "ن": {"label": "ن", "type": "images", "folder": "Noon"},
+  "ه": {"label": "ه", "type": "images", "folder": "Heh"},
+  "و": {"label": "و", "type": "images", "folder": "Waw"},
+  "ي": {"label": "ي", "type": "images", "folder": "Yeh"},
+  "ة": {"label": "ة", "type": "images", "folder": "Teh_Marbuta"}
+}
+
+
