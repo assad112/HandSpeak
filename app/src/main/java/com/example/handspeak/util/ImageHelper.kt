@@ -128,5 +128,21 @@ object ImageHelper {
         val images = listFolderImages(context, folder)
         return images.getOrNull(index - 1) != null
     }
+    
+    /**
+     * يحمل صورة من Assets باستخدام المسار الكامل
+     */
+    fun loadImageFromAssets(context: Context, imagePath: String): Bitmap? {
+        return try {
+            val inputStream = context.assets.open(imagePath)
+            BitmapFactory.decodeStream(inputStream).also {
+                inputStream.close()
+                Log.d(TAG, "Loaded image from assets: $imagePath")
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, "Failed to load image from assets: $imagePath", e)
+            null
+        }
+    }
 }
 
