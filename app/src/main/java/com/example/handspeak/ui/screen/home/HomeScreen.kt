@@ -121,6 +121,16 @@ fun HomeScreen(navController: NavController, viewModel: AuthViewModel = viewMode
                 )
             ),
             HomeOption(
+                title = "تعلم",
+                description = "ابحث عن أي حرف أو كلمة لتتعلم كيفية أدائها",
+                icon = Icons.Default.School,
+                route = Screen.Learn.route,
+                gradientColors = listOf(
+                    Color(0xFFFF6B6B),
+                    Color(0xFFFFE66D)
+                )
+            ),
+            HomeOption(
                 title = "السجل",
                 description = "عرض سجل الترجمات السابقة",
                 icon = Icons.Default.History,

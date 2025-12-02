@@ -19,6 +19,7 @@ import com.example.handspeak.ui.screen.settings.SettingsScreen
 import com.example.handspeak.ui.screen.signtotext.SignToTextScreen
 import com.example.handspeak.ui.screen.texttosign.TextToSignScreen
 import com.example.handspeak.ui.screen.voicetosign.VoiceToSignScreen
+import com.example.handspeak.ui.screen.learn.LearnScreen
 import com.example.handspeak.ui.screen.account.AccountScreen
 import com.example.handspeak.ui.screen.splash.SplashScreen
 import androidx.compose.ui.platform.LocalContext
@@ -89,6 +90,10 @@ fun NavGraph(navController: NavHostController) {
         
         composable(Screen.VoiceToSign.route) {
             VoiceToSignScreen(navController)
+        }
+        
+        composable(Screen.Learn.route) {
+            LearnScreen(navController)
         }
         
         composable(Screen.History.route) {

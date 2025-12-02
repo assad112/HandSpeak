@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -26,14 +27,14 @@ fun MainBottomBar(navController: NavController) {
             icon = { Icon(Icons.Default.Home, contentDescription = "Home") }
         )
         NavigationBarItem(
-            selected = currentRoute == Screen.History.route,
-            onClick = { if (currentRoute != Screen.History.route) navController.navigate(Screen.History.route) },
-            icon = { Icon(Icons.Default.Book, contentDescription = "Book") }
-        )
-        NavigationBarItem(
             selected = currentRoute == Screen.SignToText.route,
             onClick = { if (currentRoute != Screen.SignToText.route) navController.navigate(Screen.SignToText.route) },
             icon = { Icon(Icons.Default.CameraAlt, contentDescription = "Camera") }
+        )
+        NavigationBarItem(
+            selected = currentRoute == Screen.TextToSign.route,
+            onClick = { if (currentRoute != Screen.TextToSign.route) navController.navigate(Screen.TextToSign.route) },
+            icon = { Icon(Icons.Default.TextFields, contentDescription = "Text") }
         )
         NavigationBarItem(
             selected = currentRoute == Screen.VoiceToSign.route,
@@ -41,9 +42,9 @@ fun MainBottomBar(navController: NavController) {
             icon = { Icon(Icons.Default.Mic, contentDescription = "Mic") }
         )
         NavigationBarItem(
-            selected = currentRoute == Screen.TextToSign.route,
-            onClick = { if (currentRoute != Screen.TextToSign.route) navController.navigate(Screen.TextToSign.route) },
-            icon = { Icon(Icons.Default.TextFields, contentDescription = "Text") }
+            selected = currentRoute == Screen.Learn.route,
+            onClick = { if (currentRoute != Screen.Learn.route) navController.navigate(Screen.Learn.route) },
+            icon = { Icon(Icons.Default.School, contentDescription = "Learn") }
         )
     }
 }

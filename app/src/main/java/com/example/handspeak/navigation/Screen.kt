@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     object SignToText : Screen("sign_to_text")
     object TextToSign : Screen("text_to_sign")
     object VoiceToSign : Screen("voice_to_sign")
+    object Learn : Screen("learn")
     object History : Screen("history")
     object Settings : Screen("settings")
     object ImageDownload : Screen("image_download")
