@@ -2,6 +2,10 @@ package com.example.handspeak.ui.screen.settings
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.handspeak.ml.AdaptiveLearningHelper
@@ -9,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 
 data class SettingsUiState(
     val darkMode: Boolean = false,
@@ -109,6 +114,46 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             apply()
         }
         updateLearningSampleCount()
+    }
+    
+    /**
+     * تصدير ملف CSV لبيانات التدريب
+     */
+    fun exportTrainingData(context: Context): Intent? {
+        return try {
+            val csvPath = AdaptiveLearningHelper.getCsvFilePath(context)
+            if (csvPath == null) {
+                Log.w("SettingsViewModel", "No training data to export")
+                return null
+            }
+            
+            val csvFile = File(csvPath)
+            if (!csvFile.exists()) {
+                Log.w("SettingsViewModel", "CSV file does not exist: $csvPath")
+                return null
+            }
+            
+            // إنشاء URI باستخدام FileProvider
+            val uri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.fileprovider",
+                csvFile
+            )
+            
+            // إنشاء Intent للمشاركة
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/csv"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                putExtra(Intent.EXTRA_SUBJECT, "HandSpeak Training Data")
+                putExtra(Intent.EXTRA_TEXT, "Training data CSV file from HandSpeak app")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            
+            shareIntent
+        } catch (e: Exception) {
+            Log.e("SettingsViewModel", "Error exporting training data: ${e.message}", e)
+            null
+        }
     }
 }
 

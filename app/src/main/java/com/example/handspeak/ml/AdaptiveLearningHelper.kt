@@ -54,24 +54,32 @@ object AdaptiveLearningHelper {
         label: String
     ): Boolean = withContext(Dispatchers.IO) {
         try {
+            Log.d(TAG, "🔵 بدء حفظ عينة - النص: '$label', عدد landmarks: ${landmarks.size}")
+            
             if (landmarks.size != 21) {
-                Log.w(TAG, "Invalid landmarks count: ${landmarks.size}, expected 21")
+                Log.w(TAG, "❌ عدد landmarks خاطئ: ${landmarks.size}, المطلوب 21")
                 return@withContext false
             }
             
             // تحقق من الحد الأقصى
             val currentCount = getSampleCountForLabel(context, label)
+            Log.d(TAG, "📊 العدد الحالي للتصنيف '$label': $currentCount/$MAX_SAMPLES_PER_LABEL")
+            
             if (currentCount >= MAX_SAMPLES_PER_LABEL) {
-                Log.d(TAG, "Max samples reached for label: $label ($currentCount/$MAX_SAMPLES_PER_LABEL)")
+                Log.d(TAG, "⚠️ تم الوصول للحد الأقصى للتصنيف: $label ($currentCount/$MAX_SAMPLES_PER_LABEL)")
                 return@withContext false
             }
             
-            val csvFile = File(getTrainingDataDirectory(context), CSV_FILE_NAME)
+            val dir = getTrainingDataDirectory(context)
+            val csvFile = File(dir, CSV_FILE_NAME)
             val fileExists = csvFile.exists()
+            
+            Log.d(TAG, "📁 مسار الملف: ${csvFile.absolutePath}, موجود: $fileExists")
             
             FileWriter(csvFile, true).use { writer ->
                 // كتابة Header إذا كان الملف جديد
                 if (!fileExists) {
+                    Log.d(TAG, "📝 إنشاء ملف CSV جديد مع Header")
                     val header = buildHeader()
                     writer.append(header)
                     writer.append("\n")
@@ -81,12 +89,18 @@ object AdaptiveLearningHelper {
                 val row = buildDataRow(landmarks, label)
                 writer.append(row)
                 writer.append("\n")
+                writer.flush()
+                Log.d(TAG, "✍️ تم كتابة البيانات إلى الملف")
             }
             
-            Log.d(TAG, "Saved training sample for label: $label (Total: ${getSampleCountForLabel(context, label)})")
+            val newCount = getSampleCountForLabel(context, label)
+            Log.d(TAG, "✅ نجح الحفظ! التصنيف: $label - العدد الجديد: $newCount")
             true
         } catch (e: IOException) {
-            Log.e(TAG, "Error saving training sample", e)
+            Log.e(TAG, "❌ خطأ في الحفظ: ${e.message}", e)
+            false
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ خطأ غير متوقع: ${e.message}", e)
             false
         }
     }

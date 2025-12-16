@@ -64,29 +64,39 @@ class TextToSignViewModel(application: Application) : AndroidViewModel(applicati
             return
         }
         
-        // 1) Try exact/contains mapping first (prioritize full words/phrases)
-        var direct = signMap[text] ?: signMap.entries.firstOrNull {
-            it.key.contains(text, ignoreCase = true) || text.contains(it.key, ignoreCase = true)
-        }?.value
-        
-        // Check if direct mapping has images
-        var directHasImages = false
-        run {
-            val folder: String? = direct?.folder
-            if (folder != null) {
-                val count = ImageHelper.getImageCount(getApplication(), folder)
-                directHasImages = count > 0
-                if (!directHasImages) {
-                    direct = null
+        // Always split text into unique characters to show individual sign images
+        // This allows users to see how each letter is signed without duplicates
+        val sequence = if (text.isNotEmpty()) {
+            val list = mutableListOf<SignInfo>()
+            val seenChars = mutableSetOf<String>() // لتجنب تكرار الأحرف
+            text.forEach { ch ->
+                // Skip spaces and whitespace
+                if (!ch.isWhitespace()) {
+                    val key = ch.toString()
+                    // التحقق من أن الحرف لم يُضاف من قبل
+                    if (!seenChars.contains(key)) {
+                        seenChars.add(key)
+                    val item = signMap[key]
+                        if (item != null && item.folder != null) {
+                            // التحقق من عدم إضافة نفس SignInfo مرتين
+                            if (!list.any { it.folder == item.folder && it.label == item.label }) {
+                        list.add(item)
+                            }
+                    } else {
+                        // Log missing character for debugging
+                        Log.w("TextToSignViewModel", "Character not found in sign map: '$key' (Unicode: ${ch.code})")
+                    }
                 }
             }
-        }
+            }
+            // تأكيد إضافي لإزالة التكرار
+            if (list.isNotEmpty()) list.distinctBy { "${it.folder}_${it.label}" } else null
+        } else null
 
-        // 2) If direct mapping found with images, use it (don't split into characters)
-        if (direct != null && directHasImages) {
+        if (sequence != null && sequence.isNotEmpty()) {
             _uiState.value = _uiState.value.copy(
-                signInfo = direct,
-                signSequence = null,
+                signInfo = null,
+                signSequence = sequence,
                 errorMessage = null
             )
             saveToHistory(text)
@@ -96,32 +106,11 @@ class TextToSignViewModel(application: Application) : AndroidViewModel(applicati
             if (enableSound) {
                 speakText(text)
             }
-            return
-        }
-
-        // 3) If no direct mapping found, try per-character mapping (e.g., مرحبا → م ر ح ب ا)
-        val sequence = if (text.length > 1) {
-            val list = mutableListOf<SignInfo>()
-            text.forEach { ch ->
-                val key = ch.toString()
-                val item = signMap[key]
-                if (item != null) list.add(item)
-            }
-            if (list.isNotEmpty()) list else null
-        } else null
-
-        if (sequence != null) {
-            _uiState.value = _uiState.value.copy(
-                signInfo = null,
-                signSequence = sequence,
-                errorMessage = null
-            )
-            saveToHistory(text)
         } else {
             _uiState.value = _uiState.value.copy(
                 signInfo = null,
                 signSequence = null,
-                errorMessage = "لم يتم العثور على إشارة مطابقة للنص المدخل. حاول مع نص آخر."
+                errorMessage = "لم يتم العثور على إشارة مطابقة للنص المدخل. تأكد من إدخال حروف عربية صحيحة."
             )
         }
     }

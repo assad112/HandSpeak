@@ -115,14 +115,26 @@ class VoiceToSignViewModel(application: Application) : AndroidViewModel(applicat
             }
         }
 
-        // 2) Build per-character sequence regardless; we'll prefer it if non-empty
-        val sequence = if (trimmedText.length > 1) {
+        // 2) Build per-character sequence with unique letters only (no duplicates)
+        val sequence = if (trimmedText.length > 0) {
             val list = mutableListOf<SignInfo>()
+            val seenChars = mutableSetOf<String>() // لتجنب تكرار الأحرف
             trimmedText.forEach { ch ->
-                val si = signMap[ch.toString()]
-                if (si != null) list.add(si)
+                val charStr = ch.toString()
+                // تخطي المسافات والتحقق من عدم التكرار
+                if (!ch.isWhitespace() && !seenChars.contains(charStr)) {
+                    seenChars.add(charStr)
+                    val si = signMap[charStr]
+                    if (si != null && si.folder != null) {
+                        // التحقق من عدم إضافة نفس SignInfo مرتين
+                        if (!list.any { it.folder == si.folder && it.label == si.label }) {
+                            list.add(si)
             }
-            if (list.isNotEmpty()) list else null
+                    }
+                }
+            }
+            // تأكيد إضافي لإزالة التكرار
+            list.distinctBy { "${it.folder}_${it.label}" }
         } else null
         
         if (sequence != null) {

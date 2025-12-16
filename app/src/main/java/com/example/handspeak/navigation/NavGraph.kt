@@ -2,17 +2,16 @@ package com.example.handspeak.navigation
 
 import android.content.Context
 import androidx.compose.runtime.*
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.handspeak.data.repository.AuthRepository
 import com.example.handspeak.ui.screen.auth.LoginScreen
 import com.example.handspeak.ui.screen.auth.SignUpScreen
-import com.example.handspeak.ui.screen.history.HistoryScreen
 import com.example.handspeak.ui.screen.home.HomeScreen
+import com.example.handspeak.ui.screen.home.HomeScreenNew
 import com.example.handspeak.ui.screen.favorite.FavoriteScreen
+import com.example.handspeak.ui.screen.history.HistoryScreen
 import com.example.handspeak.ui.screen.settings.ImageDownloadSettingsScreen
 import com.example.handspeak.ui.screen.settings.LearningStatsScreen
 import com.example.handspeak.ui.screen.settings.SettingsScreen
@@ -21,23 +20,25 @@ import com.example.handspeak.ui.screen.texttosign.TextToSignScreen
 import com.example.handspeak.ui.screen.voicetosign.VoiceToSignScreen
 import com.example.handspeak.ui.screen.learn.LearnScreen
 import com.example.handspeak.ui.screen.account.AccountScreen
-import com.example.handspeak.ui.screen.splash.SplashScreen
+import com.example.handspeak.ui.screen.about.AboutScreen
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun NavGraph(navController: NavHostController) {
     val context = LocalContext.current
     val prefs = context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-    var isFirstLaunch by remember { 
-        mutableStateOf(prefs.getBoolean("is_first_launch", true))
+    
+    // Mark first launch as complete if not already done
+    LaunchedEffect(Unit) {
+        if (prefs.getBoolean("is_first_launch", true)) {
+            prefs.edit().putBoolean("is_first_launch", false).apply()
+        }
     }
     
     val authRepository = AuthRepository()
     val isSignedIn = authRepository.isUserSignedIn()
     
-    val startDestination = if (isFirstLaunch) {
-        Screen.Splash.route
-    } else if (isSignedIn) {
+    val startDestination = if (isSignedIn) {
         Screen.Home.route
     } else {
         Screen.Login.route
@@ -47,27 +48,6 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Screen.Splash.route) {
-            SplashScreen(
-                navController = navController,
-                onNavigateToNext = {
-                    // Mark first launch as complete
-                    prefs.edit().putBoolean("is_first_launch", false).apply()
-                    isFirstLaunch = false
-                    
-                    // Navigate to appropriate screen
-                    if (isSignedIn) {
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
-                    } else {
-                        navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
-                    }
-                }
-            )
-        }
         composable(Screen.Login.route) {
             LoginScreen(navController)
         }
@@ -77,7 +57,7 @@ fun NavGraph(navController: NavHostController) {
         }
         
         composable(Screen.Home.route) {
-            com.example.handspeak.ui.screen.home.BasicMainScreen(navController)
+            com.example.handspeak.ui.screen.home.HomeScreenNew(navController)
         }
         
         composable(Screen.SignToText.route) {
@@ -94,10 +74,6 @@ fun NavGraph(navController: NavHostController) {
         
         composable(Screen.Learn.route) {
             LearnScreen(navController)
-        }
-        
-        composable(Screen.History.route) {
-            HistoryScreen(navController)
         }
         
         composable(Screen.Settings.route) {
@@ -118,6 +94,16 @@ fun NavGraph(navController: NavHostController) {
         
         composable(Screen.Account.route) {
             AccountScreen(navController)
+        }
+        
+        composable(Screen.History.route) {
+            HistoryScreen(navController)
+        }
+        
+        composable(Screen.About.route) {
+            AboutScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

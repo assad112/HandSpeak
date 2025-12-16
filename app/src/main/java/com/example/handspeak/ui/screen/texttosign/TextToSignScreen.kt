@@ -1,9 +1,13 @@
 package com.example.handspeak.ui.screen.texttosign
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -13,7 +17,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,6 +28,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.handspeak.data.model.FavoriteItem
+import com.example.handspeak.data.model.SignInfo
 import com.example.handspeak.util.FavoriteManager
 import com.example.handspeak.util.ImageHelper
 import kotlinx.coroutines.delay
@@ -268,74 +276,281 @@ fun TextToSignScreen(
     }
 }
 
+// Data class for image items
+private data class SignImageItem(
+    val signInfo: SignInfo,
+    val imageIndex: Int,
+    val folder: String
+)
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SignSequenceGrid(
-    sequence: List<com.example.handspeak.data.model.SignInfo>,
+    sequence: List<SignInfo>,
     onFavorite: (String, String) -> Unit
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        sequence.chunked(2).forEach { rowItems ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                rowItems.forEach { si ->
-                    Card(
-                        modifier = Modifier.weight(1f),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surface
-                        ),
-                        elevation = CardDefaults.cardElevation(2.dp)
-                    ) {
-                        Column(
+    
+    if (sequence.isNotEmpty()) {
+        // استخدام slider للأحرف/الكلمات - عرض حرف/كلمة واحدة في كل مرة
+        var currentSignIndex by remember { mutableIntStateOf(0) }
+        val currentSign = sequence[currentSignIndex]
+        val folder = currentSign.folder
+        
+        if (folder != null) {
+            // الحصول على أول صورة فقط لكل حرف/كلمة
+            val currentSignImages = remember(currentSignIndex, folder, context) {
+                val imagePaths = ImageHelper.getImagePaths(context, folder)
+                if (imagePaths.isNotEmpty()) {
+                    listOf(
+                    SignImageItem(
+                        signInfo = currentSign,
+                            imageIndex = 0, // عرض صورة واحدة لكل حرف
+                        folder = folder
+                        )
+                    )
+                } else emptyList()
+            }
+            
+            if (currentSignImages.isNotEmpty()) {
+                val pagerState = rememberPagerState(
+                    initialPage = 0,
+                    pageCount = { currentSignImages.size }
+                )
+                
+                // إعادة تعيين الصفحة إلى الأولى عند تغيير الحرف/الكلمة
+                LaunchedEffect(currentSignIndex) {
+                    pagerState.animateScrollToPage(0)
+                }
+                
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp)
+                ) {
+                    // Image Slider للصور الحالية فقط
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        val imageItem = currentSignImages[page]
+                        val imagePath = ImageHelper.getImagePath(
+                            context,
+                            imageItem.folder,
+                            imageItem.imageIndex + 1
+                        )
+                        
+                        Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                                .fillMaxSize()
+                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.95f),
+                                shape = RoundedCornerShape(28.dp),
+                                elevation = CardDefaults.cardElevation(
+                                    defaultElevation = 10.dp,
+                                    pressedElevation = 6.dp
+                                ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                )
                             ) {
-                                Text(text = si.label, style = MaterialTheme.typography.titleMedium)
-                                if (si.folder != null) {
-                                    IconButton(onClick = { onFavorite(si.label, si.folder) }) {
-                                        Icon(Icons.Default.FavoriteBorder, contentDescription = null)
-                                    }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color.White)
+                                        .padding(12.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(context)
+                                            .data(imagePath)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = imageItem.signInfo.label,
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentScale = ContentScale.Fit
+                                    )
                                 }
                             }
-                            val folder = si.folder
-                            if (folder != null) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(context)
-                                        .data(com.example.handspeak.util.ImageHelper.getImagePath(context, folder, 1))
-                                        .build(),
-                                    contentDescription = si.label,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(140.dp)
+                        }
+                    }
+                    
+                    // معلومات الحرف/الكلمة الحالية
+                    Surface(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .padding(top = 8.dp),
+                        shape = RoundedCornerShape(22.dp),
+                        color = Color.White,
+                        shadowElevation = 4.dp
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 18.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Text(
+                                text = currentSign.label,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF667EEA)
+                            )
+                            Surface(
+                                shape = RoundedCornerShape(12.dp),
+                                color = Color(0xFF667EEA)
+                            ) {
+                                Text(
+                                    text = "${currentSignIndex + 1} / ${sequence.size}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                    color = Color.White
                                 )
-                            } else {
+                            }
+                            // Favorite button
+                            IconButton(
+                                onClick = { onFavorite(currentSign.label, folder) },
+                                modifier = Modifier.size(40.dp)
+                            ) {
                                 Icon(
-                                    imageVector = Icons.Default.PanTool,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(100.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                                    Icons.Default.FavoriteBorder,
+                                    contentDescription = "حفظ في المفضلة",
+                                    tint = Color(0xFF667EEA)
                                 )
                             }
                         }
                     }
+                    
+                    // Dots Indicator وزر التشغيل/الإيقاف
+                    // عرض النقاط حسب عدد الأحرف في الكلمة
+                        Surface(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 12.dp),
+                            shape = RoundedCornerShape(20.dp),
+                            color = Color.White.copy(alpha = 0.9f),
+                            shadowElevation = 4.dp
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                            // نقاط المؤشر حسب عدد الأحرف
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                                ) {
+                                repeat(sequence.size) { index ->
+                                    val isSelected = currentSignIndex == index
+                                        Surface(
+                                            modifier = Modifier
+                                                .size(if (isSelected) 12.dp else 8.dp),
+                                            shape = CircleShape,
+                                            color = if (isSelected) {
+                                                Color(0xFF667EEA)
+                                            } else {
+                                                Color(0xFFB0B0B0).copy(alpha = 0.5f)
+                                            },
+                                            shadowElevation = if (isSelected) 4.dp else 0.dp
+                                        ) {}
+                                }
+                            }
+                        }
+                    }
+                    
+                    // أزرار التنقل بين الأحرف/الكلمات
+                    if (sequence.size > 1) {
+                        val coroutineScope = rememberCoroutineScope()
+                        
+                        // زر السابق
+                        FloatingActionButton(
+                            onClick = {
+                                if (currentSignIndex > 0) {
+                                    currentSignIndex--
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(0)
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 8.dp),
+                            containerColor = Color(0xFF667EEA),
+                            contentColor = Color.White
+                        ) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "السابق",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        
+                        // زر التالي
+                        FloatingActionButton(
+                            onClick = {
+                                if (currentSignIndex < sequence.size - 1) {
+                                    currentSignIndex++
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(0)
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 8.dp),
+                            containerColor = Color(0xFF667EEA),
+                            contentColor = Color.White
+                        ) {
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                contentDescription = "التالي",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
                 }
-                // Fill empty space if odd number of items
-                if (rowItems.size == 1) {
-                    Spacer(modifier = Modifier.weight(1f))
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "لا توجد صور متاحة",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(500.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "لا يوجد مجلد للصور",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "لا توجد إشارات متاحة",
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
@@ -375,30 +590,31 @@ fun SignImagesPlayer(
                 .height(300.dp),
             contentAlignment = Alignment.Center
         ) {
-            if (imageCount > 0 && ImageHelper.imageExists(context, folder, currentImageIndex + 1)) {
-                // Load actual image from assets
-                var hasError by remember(currentImageIndex) { mutableStateOf(false) }
+            if (imageCount > 0) {
+                // Load image directly from assets as Bitmap (Coil doesn't support file:///android_asset/ URIs well)
+                val bitmap = remember(currentImageIndex, folder) {
+                    ImageHelper.loadImage(context, folder, currentImageIndex + 1)
+                }
                 
-                if (hasError) {
+                if (bitmap != null) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(bitmap)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "Sign image ${currentImageIndex + 1}",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                    )
+                } else {
                     // Fallback to icon if image fails to load
                     Icon(
                         imageVector = Icons.Default.PanTool,
                         contentDescription = "Sign image error",
                         modifier = Modifier.size(200.dp),
                         tint = MaterialTheme.colorScheme.primary
-                    )
-                } else {
-                    AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(ImageHelper.getImagePath(context, folder, currentImageIndex + 1))
-                            .build(),
-                        contentDescription = "Sign image ${currentImageIndex + 1}",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(300.dp),
-                        onError = {
-                            hasError = true
-                        }
                     )
                 }
             } else {

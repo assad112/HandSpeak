@@ -22,8 +22,9 @@ class HandDetectionHelper(
     companion object {
         private const val TAG = "HandDetectionHelper"
         private const val MODEL_NAME = "hand_landmarker.task"
-        private const val MIN_DETECTION_CONFIDENCE = 0.5f
-        private const val MIN_TRACKING_CONFIDENCE = 0.5f
+        // عتبات محسّنة لدقة أفضل
+        private const val MIN_DETECTION_CONFIDENCE = 0.6f  // 60% ثقة (محسّن من 50%)
+        private const val MIN_TRACKING_CONFIDENCE = 0.6f   // 60% تتبع (محسّن من 50%)
     }
     
     init {
@@ -61,7 +62,12 @@ class HandDetectionHelper(
     
     fun detectHands(bitmap: Bitmap): HandDetectionResult? {
         if (handLandmarker == null) {
-            Log.e(TAG, "HandLandmarker not initialized")
+            Log.w(TAG, "HandLandmarker not initialized - MediaPipe may not be available")
+            return null
+        }
+        
+        if (bitmap.isRecycled) {
+            Log.w(TAG, "Bitmap is recycled")
             return null
         }
         
@@ -69,10 +75,20 @@ class HandDetectionHelper(
             val mpImage = BitmapImageBuilder(bitmap).build()
             val result = handLandmarker?.detect(mpImage)
             
-            return result?.let { processResult(it) }
+            if (result == null) {
+                Log.d(TAG, "No hand detected in image")
+                return null
+            }
+            
+            val processed = processResult(result)
+            if (processed != null) {
+                Log.d(TAG, "Hand detected successfully: ${processed.landmarks.size} landmarks, confidence: ${processed.confidence}")
+            }
+            
+            return processed
         } catch (e: Exception) {
-            Log.e(TAG, "Error detecting hands", e)
-            onError("Error detecting hands: ${e.message}")
+            Log.e(TAG, "Error detecting hands: ${e.message}", e)
+            // لا نستدعي onError لتجنب crash
             return null
         }
     }

@@ -14,8 +14,8 @@ android {
         applicationId = "com.example.handspeak"
         minSdk = 28
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.activity.compose)
+    implementation("androidx.compose.foundation:foundation:1.5.4")
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // Navigation
@@ -108,8 +109,8 @@ dependencies {
     implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.support)
     // TensorFlow Lite Select TF Ops - required for models using TensorFlow Select operations (LSTM models)
-    // Must match TensorFlow Lite version (2.14.0)
-    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.14.0")
+    // Must match TensorFlow Lite version (2.16.1)
+    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.16.1")
     // GPU delegate (optional - commented out until model is added)
     // implementation(libs.tensorflow.lite.gpu)
 
@@ -127,6 +128,12 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.exoplayer)
     implementation(libs.accompanist.permissions)
+    
+    // Networking - Retrofit & OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     // Testing
     testImplementation(libs.junit)

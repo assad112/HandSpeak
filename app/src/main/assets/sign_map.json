@@ -9,6 +9,11 @@
     "type": "images",
     "folder": "shokran"
   },
+  "شكراً": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
   "نعم": {
     "label": "نعم",
     "type": "images",
@@ -24,7 +29,17 @@
     "type": "images",
     "folder": "min_fadlak"
   },
+  "لو سمحت": {
+    "label": "من_فضلك",
+    "type": "images",
+    "folder": "min_fadlak"
+  },
   "آسف": {
+    "label": "آسف",
+    "type": "images",
+    "folder": "asef"
+  },
+  "معذرة": {
     "label": "آسف",
     "type": "images",
     "folder": "asef"
@@ -54,18 +69,1253 @@
     "type": "images",
     "folder": "assalamu_alaikum"
   },
-  "simple": {
-    "label": "Simple_Test",
+  "وعليكم السلام": {
+    "label": "السلام_عليكم",
+    "type": "images",
+    "folder": "assalamu_alaikum"
+  },
+  "أهلا": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "أهلاً وسهلاً": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "إلى اللقاء": {
+    "label": "إلى_اللقاء",
     "type": "images",
     "folder": "simple"
   },
-  "تجربة": {
-    "label": "تجربة",
+  "مع السلامة": {
+    "label": "مع_السلامة",
     "type": "images",
     "folder": "simple"
   },
-  "تعلم": {
-    "label": "تعلم",
+  "وداعاً": {
+    "label": "وداعاً",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صباح النور": {
+    "label": "صباح_الخير",
+    "type": "images",
+    "folder": "sabah_alkhair"
+  },
+  "مساء النور": {
+    "label": "مساء_الخير",
+    "type": "images",
+    "folder": "masaa_alkhair"
+  },
+  "كيفك": {
+    "label": "كيف_حالك",
+    "type": "images",
+    "folder": "kaif_halak"
+  },
+  "أهلاً": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "أهلا بك": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "أهلاً وسهلاً بك": {
+    "label": "مرحبا",
+    "type": "images",
+    "folder": "marhaba"
+  },
+  "عفواً": {
+    "label": "من_فضلك",
+    "type": "images",
+    "folder": "min_fadlak"
+  },
+  "تسلم": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "الله يسلمك": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "حبيبي": {
+    "label": "حبيبي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حبيبتي": {
+    "label": "حبيبي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أحبك": {
+    "label": "أحبك",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أنا": {
+    "label": "أنا",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أنت": {
+    "label": "أنت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "هو": {
+    "label": "هو",
+    "type": "images",
+    "folder": "simple"
+  },
+  "هي": {
+    "label": "هي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نحن": {
+    "label": "نحن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أنتم": {
+    "label": "أنتم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "هم": {
+    "label": "هم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ما": {
+    "label": "ما",
+    "type": "images",
+    "folder": "simple"
+  },
+  "من": {
+    "label": "من",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ماذا": {
+    "label": "ماذا",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أين": {
+    "label": "أين",
+    "type": "images",
+    "folder": "simple"
+  },
+  "متى": {
+    "label": "متى",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كيف": {
+    "label": "كيف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "لماذا": {
+    "label": "لماذا",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كم": {
+    "label": "كم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أي": {
+    "label": "أي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مين": {
+    "label": "من",
+    "type": "images",
+    "folder": "simple"
+  },
+  "وين": {
+    "label": "أين",
+    "type": "images",
+    "folder": "simple"
+  },
+  "إيش": {
+    "label": "ماذا",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ليش": {
+    "label": "لماذا",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أم": {
+    "label": "أم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أب": {
+    "label": "أب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "والد": {
+    "label": "أب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "والدة": {
+    "label": "أم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أخ": {
+    "label": "أخ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أخت": {
+    "label": "أخت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ابن": {
+    "label": "ابن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ابنة": {
+    "label": "ابنة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "زوج": {
+    "label": "زوج",
+    "type": "images",
+    "folder": "simple"
+  },
+  "زوجة": {
+    "label": "زوجة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صديق": {
+    "label": "صديق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صديقة": {
+    "label": "صديق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صاحب": {
+    "label": "صديق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صاحبة": {
+    "label": "صديق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أكل": {
+    "label": "أكل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شرب": {
+    "label": "شرب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نام": {
+    "label": "نام",
+    "type": "images",
+    "folder": "simple"
+  },
+  "استيقظ": {
+    "label": "استيقظ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ذهب": {
+    "label": "ذهب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جاء": {
+    "label": "جاء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "رأى": {
+    "label": "رأى",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سمع": {
+    "label": "سمع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قال": {
+    "label": "قال",
+    "type": "images",
+    "folder": "simple"
+  },
+  "فعل": {
+    "label": "فعل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عمل": {
+    "label": "عمل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "درس": {
+    "label": "درس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قرأ": {
+    "label": "قرأ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كتب": {
+    "label": "كتب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "لعب": {
+    "label": "لعب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ركض": {
+    "label": "ركض",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مشى": {
+    "label": "مشى",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جلس": {
+    "label": "جلس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "وقف": {
+    "label": "وقف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جيد": {
+    "label": "جيد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حسن": {
+    "label": "جيد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ممتاز": {
+    "label": "ممتاز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "رائع": {
+    "label": "رائع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جميل": {
+    "label": "جميل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قبيح": {
+    "label": "قبيح",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كبير": {
+    "label": "كبير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صغير": {
+    "label": "صغير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طويل": {
+    "label": "طويل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قصير": {
+    "label": "قصير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عريض": {
+    "label": "عريض",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ضيق": {
+    "label": "ضيق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سريع": {
+    "label": "سريع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بطيء": {
+    "label": "بطيء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ساخن": {
+    "label": "ساخن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بارد": {
+    "label": "بارد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حار": {
+    "label": "ساخن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دافئ": {
+    "label": "دافئ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جديد": {
+    "label": "جديد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قديم": {
+    "label": "قديم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نظيف": {
+    "label": "نظيف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "وسخ": {
+    "label": "وسخ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قذر": {
+    "label": "وسخ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سهل": {
+    "label": "سهل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صعب": {
+    "label": "صعب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قريب": {
+    "label": "قريب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بعيد": {
+    "label": "بعيد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "غني": {
+    "label": "غني",
+    "type": "images",
+    "folder": "simple"
+  },
+  "فقير": {
+    "label": "فقير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سعيد": {
+    "label": "سعيد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حزين": {
+    "label": "حزين",
+    "type": "images",
+    "folder": "simple"
+  },
+  "فرحان": {
+    "label": "سعيد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "زعلان": {
+    "label": "حزين",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جائع": {
+    "label": "جائع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عطشان": {
+    "label": "عطشان",
+    "type": "images",
+    "folder": "simple"
+  },
+  "متعب": {
+    "label": "متعب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مرهق": {
+    "label": "متعب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مريض": {
+    "label": "مريض",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صحيح": {
+    "label": "صحيح",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سليم": {
+    "label": "صحيح",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قوي": {
+    "label": "قوي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ضعيف": {
+    "label": "ضعيف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ذكي": {
+    "label": "ذكي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "غبي": {
+    "label": "غبي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طيب": {
+    "label": "طيب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شرير": {
+    "label": "شرير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "لطيف": {
+    "label": "لطيف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "لئيم": {
+    "label": "شرير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شين": {
+    "label": "قبيح",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أبيض": {
+    "label": "أبيض",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أسود": {
+    "label": "أسود",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أحمر": {
+    "label": "أحمر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أزرق": {
+    "label": "أزرق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أخضر": {
+    "label": "أخضر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أصفر": {
+    "label": "أصفر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "برتقالي": {
+    "label": "برتقالي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بنفسجي": {
+    "label": "بنفسجي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "وردي": {
+    "label": "وردي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "زهري": {
+    "label": "وردي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بني": {
+    "label": "بني",
+    "type": "images",
+    "folder": "simple"
+  },
+  "رمادي": {
+    "label": "رمادي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ذهبي": {
+    "label": "ذهبي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "فضي": {
+    "label": "فضي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "واحد": {
+    "label": "واحد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "اثنان": {
+    "label": "اثنان",
+    "type": "images",
+    "folder": "simple"
+  },
+  "اثنين": {
+    "label": "اثنان",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ثلاثة": {
+    "label": "ثلاثة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ثلاث": {
+    "label": "ثلاثة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أربعة": {
+    "label": "أربعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أربع": {
+    "label": "أربعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "خمسة": {
+    "label": "خمسة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "خمس": {
+    "label": "خمسة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ستة": {
+    "label": "ستة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ست": {
+    "label": "ستة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سبعة": {
+    "label": "سبعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سبع": {
+    "label": "سبعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ثمانية": {
+    "label": "ثمانية",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ثماني": {
+    "label": "ثمانية",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تسعة": {
+    "label": "تسعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تسع": {
+    "label": "تسعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عشرة": {
+    "label": "عشرة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عشر": {
+    "label": "عشرة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "صفر": {
+    "label": "صفر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مئة": {
+    "label": "مئة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ألف": {
+    "label": "ألف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "يوم": {
+    "label": "يوم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أسبوع": {
+    "label": "أسبوع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شهر": {
+    "label": "شهر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سنة": {
+    "label": "سنة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عام": {
+    "label": "سنة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "السبت": {
+    "label": "السبت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الأحد": {
+    "label": "الأحد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الاثنين": {
+    "label": "الاثنين",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الثلاثاء": {
+    "label": "الثلاثاء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الأربعاء": {
+    "label": "الأربعاء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الخميس": {
+    "label": "الخميس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الجمعة": {
+    "label": "الجمعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "اليوم": {
+    "label": "اليوم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أمس": {
+    "label": "أمس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "غداً": {
+    "label": "غداً",
+    "type": "images",
+    "folder": "simple"
+  },
+  "غدا": {
+    "label": "غداً",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بعد غد": {
+    "label": "بعد_غد",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الآن": {
+    "label": "الآن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الان": {
+    "label": "الآن",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الوقت": {
+    "label": "الوقت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "الساعة": {
+    "label": "الساعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دقيقة": {
+    "label": "دقيقة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ساعة": {
+    "label": "ساعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طعام": {
+    "label": "طعام",
+    "type": "images",
+    "folder": "simple"
+  },
+  "خبز": {
+    "label": "خبز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ماء": {
+    "label": "ماء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مياه": {
+    "label": "ماء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حليب": {
+    "label": "حليب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عصير": {
+    "label": "عصير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شاي": {
+    "label": "شاي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قهوة": {
+    "label": "قهوة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "لحم": {
+    "label": "لحم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دجاج": {
+    "label": "دجاج",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سمك": {
+    "label": "سمك",
+    "type": "images",
+    "folder": "simple"
+  },
+  "أرز": {
+    "label": "أرز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "فاكهة": {
+    "label": "فاكهة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تفاح": {
+    "label": "تفاح",
+    "type": "images",
+    "folder": "simple"
+  },
+  "موز": {
+    "label": "موز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "برتقال": {
+    "label": "برتقال",
+    "type": "images",
+    "folder": "simple"
+  },
+  "خضار": {
+    "label": "خضار",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طماطم": {
+    "label": "طماطم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بصل": {
+    "label": "بصل",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بيت": {
+    "label": "بيت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "منزل": {
+    "label": "بيت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دار": {
+    "label": "بيت",
+    "type": "images",
+    "folder": "simple"
+  },
+  "غرفة": {
+    "label": "غرفة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مطبخ": {
+    "label": "مطبخ",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حمام": {
+    "label": "حمام",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نوم": {
+    "label": "نوم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سرير": {
+    "label": "سرير",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طاولة": {
+    "label": "طاولة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كرسي": {
+    "label": "كرسي",
+    "type": "images",
+    "folder": "simple"
+  },
+  "باب": {
+    "label": "باب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نافذة": {
+    "label": "نافذة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شباك": {
+    "label": "نافذة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مدرسة": {
+    "label": "مدرسة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جامعة": {
+    "label": "جامعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مستشفى": {
+    "label": "مستشفى",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مستوصف": {
+    "label": "مستشفى",
+    "type": "images",
+    "folder": "simple"
+  },
+  "مكتب": {
+    "label": "مكتب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "متجر": {
+    "label": "متجر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "محل": {
+    "label": "متجر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سوق": {
+    "label": "سوق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شارع": {
+    "label": "شارع",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طريق": {
+    "label": "طريق",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سيارة": {
+    "label": "سيارة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "عربية": {
+    "label": "سيارة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حافلة": {
+    "label": "حافلة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "باص": {
+    "label": "حافلة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "طائرة": {
+    "label": "طائرة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قطار": {
+    "label": "قطار",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دراجة": {
+    "label": "دراجة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بسكليت": {
+    "label": "دراجة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كتاب": {
+    "label": "كتاب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قلم": {
+    "label": "قلم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ورقة": {
+    "label": "ورقة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "دفتر": {
+    "label": "دفتر",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حاسوب": {
+    "label": "حاسوب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كمبيوتر": {
+    "label": "حاسوب",
+    "type": "images",
+    "folder": "simple"
+  },
+  "هاتف": {
+    "label": "هاتف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "جوال": {
+    "label": "هاتف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "موبايل": {
+    "label": "هاتف",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تلفاز": {
+    "label": "تلفاز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تلفزيون": {
+    "label": "تلفاز",
+    "type": "images",
+    "folder": "simple"
+  },
+  "راديو": {
+    "label": "راديو",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ملابس": {
+    "label": "ملابس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "ثياب": {
+    "label": "ملابس",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قميص": {
+    "label": "قميص",
+    "type": "images",
+    "folder": "simple"
+  },
+  "بنطلون": {
+    "label": "بنطلون",
+    "type": "images",
+    "folder": "simple"
+  },
+  "سروال": {
+    "label": "بنطلون",
+    "type": "images",
+    "folder": "simple"
+  },
+  "حذاء": {
+    "label": "حذاء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "نعل": {
+    "label": "حذاء",
+    "type": "images",
+    "folder": "simple"
+  },
+  "قبعة": {
+    "label": "قبعة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "كاب": {
+    "label": "قبعة",
     "type": "images",
     "folder": "simple"
   },
@@ -97,7 +1347,45 @@
   "ه": {"label": "ه", "type": "images", "folder": "Heh"},
   "و": {"label": "و", "type": "images", "folder": "Waw"},
   "ي": {"label": "ي", "type": "images", "folder": "Yeh"},
-  "ة": {"label": "ة", "type": "images", "folder": "Teh_Marbuta"}
+  "ة": {"label": "ة", "type": "images", "folder": "Teh_Marbuta"},
+  "simple": {
+    "label": "Simple_Test",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تجربة": {
+    "label": "تجربة",
+    "type": "images",
+    "folder": "simple"
+  },
+  "تعلم": {
+    "label": "تعلم",
+    "type": "images",
+    "folder": "simple"
+  },
+  "شكراً لك": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "شكراً جزيلاً": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "الله يعطيك العافية": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "بارك الله فيك": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  },
+  "جزاك الله خيراً": {
+    "label": "شكرا",
+    "type": "images",
+    "folder": "shokran"
+  }
 }
-
-

@@ -1,8 +1,13 @@
 package com.example.handspeak.ui.screen.learn
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -11,6 +16,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -18,10 +26,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.handspeak.navigation.Screen
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.handspeak.ui.components.MainBottomBar
 import com.example.handspeak.util.ImageHelper
+import com.example.handspeak.ml.AdaptiveLearningHelper
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+
+data class ImageItem(
+    val result: SignSearchResult,
+    val imageIndex: Int
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,6 +118,172 @@ fun LearnScreen(
                 singleLine = true,
                 shape = RoundedCornerShape(16.dp)
             )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // بطاقة التعلم التفاعلي
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6A5ACD) // لون بنفسجي
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                ) {
+                    // العنوان مع الأيقونات
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.School,
+                                contentDescription = null,
+                                modifier = Modifier.size(28.dp),
+                                tint = Color.White
+                            )
+                            Text(
+                                text = "التعلم التفاعلي",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.MenuBook,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                                tint = Color.White.copy(alpha = 0.9f)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.School,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                                tint = Color.White.copy(alpha = 0.9f)
+                            )
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    // النص التوضيحي
+                    Text(
+                        text = "ساعد التطبيق على التعلم من إشاراتك!",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White.copy(alpha = 0.9f)
+                    )
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // زر تأكيد وحفظ الإشارة
+                    val scope = rememberCoroutineScope()
+                    var totalSamples by remember { mutableIntStateOf(0) }
+                    var showSavedMessage by remember { mutableStateOf(false) }
+                    
+                    // تحديث عدد العينات
+                    LaunchedEffect(Unit) {
+                        scope.launch {
+                            totalSamples = AdaptiveLearningHelper.getTotalSampleCount(context)
+                        }
+                    }
+                    
+                    Button(
+                        onClick = {
+                            // توجيه المستخدم إلى صفحة الكاميرا
+                            navController.navigate(Screen.SignToText.route)
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF4CAF50) // أخضر
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                Icons.Default.CheckCircle,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                "تأكيد وحفظ الإشارة",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+                    }
+                    
+                    if (showSavedMessage) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.CheckCircle,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = "✅ تم الحفظ! شكراً لمساعدتك",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                    
+                    // عداد العينات المحفوظة
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.FolderOpen,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp),
+                            tint = Color.White.copy(alpha = 0.9f)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "العينات المحفوظة: $totalSamples",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
             
             Spacer(modifier = Modifier.height(16.dp))
             
@@ -201,6 +384,36 @@ fun LearnScreen(
                     }
                 }
                 
+                uiState.searchResults.isEmpty() && uiState.searchQuery.isEmpty() && !uiState.isLoading -> {
+                    // عرض رسالة عند عدم وجود نتائج في البداية
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.School,
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "اختر فئة أو ابحث عن حرف أو كلمة",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+                
                 uiState.searchResults.isEmpty() && uiState.searchQuery.isNotEmpty() -> {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
@@ -238,19 +451,117 @@ fun LearnScreen(
                 }
                 
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(uiState.searchResults) { result ->
-                            SignCard(
-                                label = result.label,
-                                imagePaths = result.imagePaths,
-                                type = result.type,
-                                context = context
+                    if (uiState.searchResults.isNotEmpty()) {
+                        // جمع كل الصور من جميع النتائج
+                        val allImages = remember(uiState.searchResults) {
+                            uiState.searchResults.flatMapIndexed { resultIndex, result ->
+                                result.imagePaths.mapIndexed { imageIndex, _ ->
+                                    ImageItem(
+                                        result = result,
+                                        imageIndex = imageIndex
+                                    )
+                                }
+                            }
+                        }
+                        
+                        if (allImages.isNotEmpty()) {
+                            val pagerState = rememberPagerState(
+                                initialPage = 0,
+                                pageCount = { allImages.size }
                             )
+                            
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                            ) {
+                                // Image Slider باستخدام HorizontalPager
+                                HorizontalPager(
+                                    state = pagerState,
+                                    modifier = Modifier.fillMaxSize()
+                                ) { page ->
+                                    val imageItem = allImages[page]
+                                    val imageIndex = imageItem.imageIndex + 1
+                                    val bitmap = remember(imageItem.result.folder, imageItem.imageIndex) {
+                                        ImageHelper.loadImage(context, imageItem.result.folder, imageIndex)
+                                    }
+                                    
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        if (bitmap != null) {
+                                            AsyncImage(
+                                                model = ImageRequest.Builder(context)
+                                                    .data(bitmap)
+                                                    .crossfade(true)
+                                                    .build(),
+                                                contentDescription = imageItem.result.label,
+                                                modifier = Modifier.fillMaxSize(),
+                                                contentScale = ContentScale.Fit
+                                            )
+                                        } else {
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.BrokenImage,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(64.dp),
+                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                                Spacer(modifier = Modifier.height(8.dp))
+                                                Text(
+                                                    text = "لم يتم العثور على الصورة",
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // مؤشر الصفحات (Dots Indicator)
+                                if (allImages.size > 1) {
+                                    Row(
+                                        modifier = Modifier
+                                            .align(Alignment.BottomCenter)
+                                            .padding(bottom = 80.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        repeat(allImages.size) { index ->
+                                            Surface(
+                                                modifier = Modifier
+                                                    .size(if (pagerState.currentPage == index) 10.dp else 8.dp),
+                                                shape = CircleShape,
+                                                color = if (pagerState.currentPage == index) {
+                                                    MaterialTheme.colorScheme.primary
+                                                } else {
+                                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                                                }
+                                            ) {}
+                                        }
+                                    }
+                                    
+                                    // معلومات الصورة الحالية
+                                    Card(
+                                        modifier = Modifier
+                                            .align(Alignment.TopCenter)
+                                            .padding(top = 16.dp),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
+                                        ),
+                                        shape = RoundedCornerShape(20.dp)
+                                    ) {
+                                        Text(
+                                            text = "${allImages[pagerState.currentPage].result.label} (${pagerState.currentPage + 1} / ${allImages.size})",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -262,14 +573,16 @@ fun LearnScreen(
 @Composable
 fun SignCard(
     label: String,
+    folder: String,
     imagePaths: List<String>,
     type: String,
-    context: android.content.Context
+    context: android.content.Context,
+    modifier: Modifier = Modifier
 ) {
     var currentImageIndex by remember { mutableIntStateOf(0) }
     
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -311,101 +624,157 @@ fun SignCard(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            // Image Display
-            Card(
+            // Image Display with Navigation
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
+                    .height(400.dp)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (imagePaths.isNotEmpty()) {
-                        val imagePath = imagePaths[currentImageIndex]
-                        val bitmap = remember(imagePath) {
-                            ImageHelper.loadImageFromAssets(context, imagePath)
+                if (imagePaths.isNotEmpty()) {
+                    // استخدام loadImage مع folder و index مباشرة
+                    val imageIndex = currentImageIndex + 1 // loadImage يستخدم 1-based index
+                    val bitmap = remember(folder, currentImageIndex) {
+                        ImageHelper.loadImage(context, folder, imageIndex)
+                    }
+                    
+                    // الصورة الرئيسية
+                    Card(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (bitmap != null) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                        .data(bitmap)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = label,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Fit
+                                )
+                            } else {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.BrokenImage,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(64.dp),
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "لم يتم العثور على الصورة",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = "المجلد: $folder",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    
+                    // أزرار التبديل (إذا كان هناك أكثر من صورة)
+                    if (imagePaths.size > 1) {
+                        // زر السابق
+                        FloatingActionButton(
+                            onClick = {
+                                currentImageIndex = if (currentImageIndex > 0) {
+                                    currentImageIndex - 1
+                                } else {
+                                    imagePaths.size - 1
+                                }
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 16.dp),
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "السابق",
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                         
-                        if (bitmap != null) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(context)
-                                    .data(bitmap)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = label,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Fit
+                        // زر التالي
+                        FloatingActionButton(
+                            onClick = {
+                                currentImageIndex = if (currentImageIndex < imagePaths.size - 1) {
+                                    currentImageIndex + 1
+                                } else {
+                                    0
+                                }
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 16.dp),
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ) {
+                            Icon(
+                                Icons.Default.ArrowForward,
+                                contentDescription = "التالي",
+                                modifier = Modifier.size(24.dp)
                             )
-                        } else {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.BrokenImage,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(64.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = "لم يتم العثور على الصورة",
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
                         }
-                    } else {
-                        Text(
-                            text = "لا توجد صور متاحة",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        
+                        // عداد الصور في الأسفل
+                        Card(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
+                            ),
+                            shape = RoundedCornerShape(20.dp)
+                        ) {
+                            Text(
+                                text = "${currentImageIndex + 1} / ${imagePaths.size}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                } else {
+                    Card(
+                        modifier = Modifier.fillMaxSize(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
                         )
-                    }
-                }
-            }
-            
-            // Navigation Controls (if multiple images)
-            if (imagePaths.size > 1) {
-                Spacer(modifier = Modifier.height(12.dp))
-                
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(
-                        onClick = {
-                            currentImageIndex = if (currentImageIndex > 0) {
-                                currentImageIndex - 1
-                            } else {
-                                imagePaths.size - 1
-                            }
-                        }
                     ) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "السابق")
-                    }
-                    
-                    Text(
-                        text = "${currentImageIndex + 1} / ${imagePaths.size}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    
-                    IconButton(
-                        onClick = {
-                            currentImageIndex = if (currentImageIndex < imagePaths.size - 1) {
-                                currentImageIndex + 1
-                            } else {
-                                0
-                            }
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "لا توجد صور متاحة",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
-                    ) {
-                        Icon(Icons.Default.ArrowForward, contentDescription = "التالي")
                     }
                 }
             }
         }
     }
 }
+
+
+
+
 

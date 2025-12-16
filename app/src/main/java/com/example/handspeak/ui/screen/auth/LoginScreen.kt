@@ -1,8 +1,8 @@
 package com.example.handspeak.ui.screen.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -12,8 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.handspeak.R
 import com.example.handspeak.navigation.Screen
 import com.example.handspeak.ui.theme.*
 
@@ -59,79 +61,14 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Icon with hands forming a rectangular frame
-            Box(
+            // Logo Image
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "HandSpeak Logo",
                 modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(IconGrey),
-                contentAlignment = Alignment.Center
-            ) {
-                // Hands forming rectangular frame - simplified representation
-                // Using a rectangular frame to represent hands creating a frame
-                Box(
-                    modifier = Modifier
-                        .size(60.dp, 50.dp)
-                ) {
-                    // Top hand representation - fingers (vertical lines pointing down)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.TopCenter)
-                            .padding(top = 2.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        repeat(4) {
-                            androidx.compose.foundation.Canvas(
-                                modifier = Modifier.size(3.dp, 8.dp)
-                            ) {
-                                drawLine(
-                                    color = Color.White,
-                                    start = androidx.compose.ui.geometry.Offset(size.width / 2, 0f),
-                                    end = androidx.compose.ui.geometry.Offset(size.width / 2, size.height),
-                                    strokeWidth = 2f
-                                )
-                            }
-                        }
-                    }
-                    
-                    // Rectangular frame (hands forming the frame)
-                    androidx.compose.foundation.Canvas(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 8.dp, vertical = 10.dp)
-                    ) {
-                        drawRoundRect(
-                            color = Color.White,
-                            size = androidx.compose.ui.geometry.Size(size.width, size.height),
-                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(4f, 4f),
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 3f)
-                        )
-                    }
-                    
-                    // Bottom hand representation - fingers (vertical lines pointing up)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 2.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        repeat(4) {
-                            androidx.compose.foundation.Canvas(
-                                modifier = Modifier.size(3.dp, 8.dp)
-                            ) {
-                                drawLine(
-                                    color = Color.White,
-                                    start = androidx.compose.ui.geometry.Offset(size.width / 2, size.height),
-                                    end = androidx.compose.ui.geometry.Offset(size.width / 2, 0f),
-                                    strokeWidth = 2f
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+                    .size(120.dp),
+                contentScale = ContentScale.Fit
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 

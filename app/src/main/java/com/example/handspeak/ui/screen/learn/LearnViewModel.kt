@@ -1,8 +1,10 @@
 package com.example.handspeak.ui.screen.learn
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.handspeak.util.ImageHelper
 import com.example.handspeak.util.JsonHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +22,7 @@ data class LearnUiState(
 data class SignSearchResult(
     val label: String,
     val type: String, // "letter" or "word"
+    val folder: String,
     val imagePaths: List<String>
 )
 
@@ -27,11 +30,10 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(LearnUiState())
     val uiState: StateFlow<LearnUiState> = _uiState.asStateFlow()
     
-    private var allSigns: Map<String, Any> = emptyMap()
+    private var allSigns: Map<String, com.example.handspeak.data.model.SignInfo> = emptyMap()
     
     init {
         loadSignMap()
-        loadInitialResults()
     }
     
     private fun loadSignMap() {
@@ -39,23 +41,31 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 _uiState.value = _uiState.value.copy(isLoading = true)
                 allSigns = JsonHelper.loadSignMap(getApplication()) ?: emptyMap()
+                Log.d("LearnViewModel", "Loaded ${allSigns.size} signs from sign_map.json")
+                
+                if (allSigns.isEmpty()) {
+                    Log.w("LearnViewModel", "sign_map.json is empty or failed to load")
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        errorMessage = "لا توجد بيانات متاحة. تأكد من وجود sign_map.json في assets"
+                    )
+                    return@launch
+                }
+                
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     errorMessage = null
                 )
+                
+                // عرض جميع الإشارات المتاحة بعد التحميل
+                performSearch("")
             } catch (e: Exception) {
+                Log.e("LearnViewModel", "Error loading sign map", e)
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     errorMessage = "خطأ في تحميل البيانات: ${e.message}"
                 )
             }
-        }
-    }
-    
-    private fun loadInitialResults() {
-        viewModelScope.launch {
-            // عرض جميع الإشارات المتاحة عند البداية
-            performSearch("")
         }
     }
     
@@ -71,51 +81,58 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
     
     fun selectCategory(category: String) {
         _uiState.value = _uiState.value.copy(selectedCategory = category)
+        // إعادة البحث عند تغيير الفئة
         performSearch(_uiState.value.searchQuery)
     }
     
     private fun performSearch(query: String) {
         viewModelScope.launch {
             try {
+                if (allSigns.isEmpty()) {
+                    Log.w("LearnViewModel", "allSigns is empty, cannot perform search")
+                    _uiState.value = _uiState.value.copy(
+                        searchResults = emptyList(),
+                        errorMessage = null
+                    )
+                    return@launch
+                }
+                
                 val results = mutableListOf<SignSearchResult>()
-                val searchTerm = query.trim()
+                val searchTerm = query.trim().lowercase()
                 val selectedCategory = _uiState.value.selectedCategory
                 
-                allSigns.forEach { (key, value) ->
-                    if (value is Map<*, *>) {
-                        val label = value["label"] as? String ?: key
-                        val type = value["type"] as? String ?: "images"
-                        val folder = value["folder"] as? String ?: key
-                        
-                        // تحديد نوع الإشارة (حرف أو كلمة)
-                        val signType = if (label.length == 1) "letter" else "word"
-                        
-                        // فلترة حسب الفئة المختارة
-                        val matchesCategory = when (selectedCategory) {
-                            "letters" -> signType == "letter"
-                            "words" -> signType == "word"
-                            else -> true
+                Log.d("LearnViewModel", "Performing search: query='$searchTerm', category='$selectedCategory', total signs=${allSigns.size}")
+                
+                allSigns.forEach { (key, info) ->
+                    val label = info.label.ifEmpty { key }
+                    val folder = info.folder ?: key
+                    val signType = if (label.length == 1) "letter" else "word"
+                    
+                    // فلترة حسب الفئة المختارة
+                    val matchesCategory = when (selectedCategory) {
+                        "letters" -> signType == "letter"
+                        "words" -> signType == "word"
+                        else -> true
+                    }
+                    
+                    // فلترة حسب البحث (case-insensitive)
+                    val matchesSearch = searchTerm.isEmpty() ||
+                        label.lowercase().contains(searchTerm) ||
+                        key.lowercase().contains(searchTerm)
+                    
+                    if (matchesCategory && matchesSearch) {
+                        val imagePaths = getImagePathsForSign(folder)
+                        if (imagePaths.isEmpty()) {
+                            Log.d("LearnViewModel", "No images found for folder: $folder (label: $label)")
                         }
-                        
-                        // فلترة حسب البحث
-                        val matchesSearch = searchTerm.isEmpty() || 
-                                          label.contains(searchTerm) || 
-                                          key.contains(searchTerm, ignoreCase = true)
-                        
-                        if (matchesCategory && matchesSearch) {
-                            // الحصول على مسارات الصور
-                            val imagePaths = getImagePathsForSign(folder)
-                            
-                            if (imagePaths.isNotEmpty()) {
-                                results.add(
-                                    SignSearchResult(
-                                        label = label,
-                                        type = signType,
-                                        imagePaths = imagePaths
-                                    )
-                                )
-                            }
-                        }
+                        results.add(
+                            SignSearchResult(
+                                label = label,
+                                type = signType,
+                                folder = folder,
+                                imagePaths = imagePaths
+                            )
+                        )
                     }
                 }
                 
@@ -125,11 +142,14 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
                         .thenBy { it.label }
                 )
                 
+                Log.d("LearnViewModel", "Search completed: found ${sortedResults.size} results")
+                
                 _uiState.value = _uiState.value.copy(
                     searchResults = sortedResults,
                     errorMessage = null
                 )
             } catch (e: Exception) {
+                Log.e("LearnViewModel", "Error performing search", e)
                 _uiState.value = _uiState.value.copy(
                     errorMessage = "خطأ في البحث: ${e.message}"
                 )
@@ -138,47 +158,22 @@ class LearnViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     private fun getImagePathsForSign(folder: String): List<String> {
-        val imagePaths = mutableListOf<String>()
         val context = getApplication<Application>()
         
-        try {
-            // محاولة قراءة الصور من مجلد signs
-            val assetManager = context.assets
-            val signFolder = "signs/$folder"
-            
-            try {
-                val files = assetManager.list(signFolder)
-                if (files != null && files.isNotEmpty()) {
-                    files.filter { file ->
-                        file.endsWith(".jpg", ignoreCase = true) ||
-                        file.endsWith(".jpeg", ignoreCase = true) ||
-                        file.endsWith(".png", ignoreCase = true)
-                    }.sorted().forEach { file ->
-                        imagePaths.add("$signFolder/$file")
-                    }
-                }
-            } catch (e: Exception) {
-                // المجلد غير موجود، جرب بدون "signs/"
-                try {
-                    val files = assetManager.list(folder)
-                    if (files != null && files.isNotEmpty()) {
-                        files.filter { file ->
-                            file.endsWith(".jpg", ignoreCase = true) ||
-                            file.endsWith(".jpeg", ignoreCase = true) ||
-                            file.endsWith(".png", ignoreCase = true)
-                        }.sorted().forEach { file ->
-                            imagePaths.add("$folder/$file")
-                        }
-                    }
-                } catch (e2: Exception) {
-                    // لا توجد صور
-                }
-            }
+        // استخدام ImageHelper للحصول على قائمة الصور بشكل صحيح
+        // هذا يحل مشكلة case-insensitive ويستخدم نفس المنطق المستخدم في باقي التطبيق
+        return try {
+            val imagePaths = ImageHelper.getImagePaths(context, folder)
+            Log.d("LearnViewModel", "Found ${imagePaths.size} images for folder: $folder")
+            imagePaths
         } catch (e: Exception) {
-            // خطأ في الوصول للملفات
+            Log.e("LearnViewModel", "Error getting image paths for folder: $folder", e)
+            emptyList()
         }
-        
-        return imagePaths
     }
 }
+
+
+
+
 
